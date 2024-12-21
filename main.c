@@ -3,11 +3,15 @@
 #include "list/list.h"
 
 int main() {
-    struct Node* node = createNode(2);
+    // struct Node* node = createNode(2);
     // struct Node* node2 = createNode(2);
     // node->next = node2;
-    insertAtBeginning(&node, 1);
-    insertAtEnd(&node, 3);
+    // insertAtBeginning(&node, 1);
+    // insertAtEnd(&node, 3);
+
+    int arr[] = {1, 2, 3, 4, 5};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    struct Node* node = createNodeFromArray(arr, n);
 
     if (node != NULL) {
         // printf("Node created with data: %d\n", node->data);
