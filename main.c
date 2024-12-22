@@ -11,7 +11,7 @@ int main() {
 
     int arr[] = {1, 2, 3, 4, 5};
     int n = sizeof(arr) / sizeof(arr[0]);
-    struct Node* node = createNodeFromArray(arr, n);
+    ListNode* node = createNodeFromArray(arr, n);
 
     if (node != NULL) {
         // printf("Node created with data: %d\n", node->data);

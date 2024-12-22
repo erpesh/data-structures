@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include "list.h"
 
-struct Node* createNode(int data) {
-    struct Node* head = (struct Node*)malloc(sizeof(struct Node));
+ListNode* createNode(int data) {
+    ListNode* head = (ListNode*)malloc(sizeof(ListNode));
 
     if (!head) {
         printf("Memory allocation failed\n");
@@ -15,13 +15,13 @@ struct Node* createNode(int data) {
     return head;
 }
 
-struct Node* createNodeFromArray(int arr[], int n) {
+ListNode* createNodeFromArray(int arr[], int n) {
     if (n == 0) {
         return NULL;
     }
 
-    struct Node* newNode = createNode(arr[0]);
-    struct Node* head = newNode;
+    ListNode* newNode = createNode(arr[0]);
+    ListNode* head = newNode;
 
     for (int i = 1; i < n; i++) {
         newNode->next = createNode(arr[i]);
@@ -32,8 +32,8 @@ struct Node* createNodeFromArray(int arr[], int n) {
 }
 
 // O(n^2)
-struct Node* createNodeFromArray2(int arr[], int n) {
-    struct Node* node = NULL;
+ListNode* createNodeFromArray2(int arr[], int n) {
+    ListNode* node = NULL;
 
     for (int i = 0; i < n; i++) {
         node = insertAtEnd(node, arr[i]);
@@ -42,8 +42,8 @@ struct Node* createNodeFromArray2(int arr[], int n) {
     return node;
 }
 
-struct Node* createNodeFromArray3(int arr[], int n) {
-    struct Node* node = NULL;
+ListNode* createNodeFromArray3(int arr[], int n) {
+    ListNode* node = NULL;
     
     for (int i = n - 1; i >= 0; i--) {
         node = insertAtBeginning(node, arr[i]);
@@ -52,8 +52,8 @@ struct Node* createNodeFromArray3(int arr[], int n) {
     return node;
 }
 
-struct Node* insertAtBeginning(struct Node* head, int data) {
-    struct Node* newNode = createNode(data);
+ListNode* insertAtBeginning(ListNode* head, int data) {
+    ListNode* newNode = createNode(data);
 
     if (head == NULL) {
         return newNode;
@@ -63,20 +63,20 @@ struct Node* insertAtBeginning(struct Node* head, int data) {
     return newNode;
 }
 
-void insertAtBeginningPointer(struct Node** head, int data) {
-    struct Node* newNode = createNode(data);
+void insertAtBeginningPointer(ListNode** head, int data) {
+    ListNode* newNode = createNode(data);
     newNode->next = *head;
     *head = newNode;
 }
 
-struct Node* insertAtEnd(struct Node* head, int data) {
-    struct Node* newNode = createNode(data);
+ListNode* insertAtEnd(ListNode* head, int data) {
+    ListNode* newNode = createNode(data);
 
     if (head == NULL) {
         return newNode;
     }
 
-    struct Node* last = head;
+    ListNode* last = head;
     while (last->next != NULL) {
         last = last->next;
     }
@@ -85,8 +85,8 @@ struct Node* insertAtEnd(struct Node* head, int data) {
     return head;
 }
 
-void insertAtEndPointer(struct Node** head, int data) {
-    struct Node* newNode = createNode(data);
+void insertAtEndPointer(ListNode** head, int data) {
+    ListNode* newNode = createNode(data);
     
     while (*head != NULL) {
         head = &((*head)->next);
@@ -95,7 +95,7 @@ void insertAtEndPointer(struct Node** head, int data) {
     *head = newNode;
 }
 
-void printNode(struct Node** head) {
+void printNode(ListNode** head) {
     while (*head != NULL) {
         printf("Value %d\n", (*head)->data);
         head = &((*head)->next);

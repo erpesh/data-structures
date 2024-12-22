@@ -1,22 +1,22 @@
 #ifndef LIST_H
 #define LIST_H
 
-struct Node {
+typedef struct Node {
     int data;
     struct Node* next;
-};
+} ListNode;
 
-struct Node* createNode(int data);
-struct Node* createNodeFromArray(int arr[], int n); // O(n)
-struct Node* createNodeFromArray2(int arr[], int n); // O(n^2)
-struct Node* createNodeFromArray3(int arr[], int n); // O(n)
+ListNode* createNode(int data);
+ListNode* createNodeFromArray(int arr[], int n); // O(n)
+ListNode* createNodeFromArray2(int arr[], int n); // O(n^2)
+ListNode* createNodeFromArray3(int arr[], int n); // O(n)
 
-struct Node* insertAtBeginning(struct Node* head, int data);
-void insertAtBeginningPointer(struct Node** head, int data);
+ListNode* insertAtBeginning(ListNode* head, int data);
+void insertAtBeginningPointer(ListNode** head, int data);
 
-struct Node* insertAtEnd(struct Node* head, int data);
-void insertAtEndPointer(struct Node** head, int data);
+ListNode* insertAtEnd(ListNode* head, int data);
+void insertAtEndPointer(ListNode** head, int data);
 
-void printNode(struct Node** head);
+void printNode(ListNode** head);
 
 #endif // LIST_H
