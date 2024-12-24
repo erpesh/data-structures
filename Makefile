@@ -5,7 +5,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -I.
 
 # Sources and Objects
-SRC = main.c list/list.c
+SRC = main.c list/list.c array/array.c
 OBJ = $(SRC:.c=.o)
 
 # Executable name

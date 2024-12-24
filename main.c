@@ -1,24 +1,30 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "list/list.h"
+// #include "list/list.h"
+#include "array/array.h"
 
 int main() {
-    // struct Node* node = createNode(2);
-    // struct Node* node2 = createNode(2);
-    // node->next = node2;
-    // insertAtBeginning(&node, 1);
-    // insertAtEnd(&node, 3);
+    int arr[] = {1, 2, 3, 4, 125}; 
+    size_t itemSize = sizeof(arr[0]);
+    size_t length = sizeof(arr) / itemSize;
 
-    int arr[] = {1, 2, 3, 4, 5};
-    int n = sizeof(arr) / sizeof(arr[0]);
-    List* node = createNodeFromArray(arr, n);
+    Array array = createArrayFromRegularArray(arr, length, itemSize);
+    // Array array = createArray(sizeof(int), 1);
+    // int value = 1;
 
-    if (node != NULL) {
-        // printf("Node created with data: %d\n", node->data);
-        printNode(&node);
-    }
+    // arrayAppend(&array, &value);
+    // arrayAppend(&array, &value);
+    // int v2 = 4;
+    // arrayAppend(&array, &v2);
+    // arrayAppend(&array, &value);
 
-    free(node); // Free the allocated memory to prevent memory leaks
+    printArray(&array);
+    arrayRemove(&array, 3);
+    printf("\n");
+    printArray(&array);
+
+    printf("\nindex 2 - %d\n", *(int*)arrayAt(&array, 2));
+    free(array.items);
 
     return 0;
 }
