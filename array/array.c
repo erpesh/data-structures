@@ -198,9 +198,9 @@ void arrayExtend(Array* self, Array* array) {
     printf("capacity after %zu\n", self->capacity);
 }
 
-void arraySlice(Array* array, size_t lo, size_t hi) {
-    
-}
+// void arraySlice(Array* array, size_t lo, size_t hi) {
+
+// }
 
 // from lo to hi (exclusive)
 void arrayReverseSlice(Array* array, size_t lo, size_t hi) {
@@ -216,6 +216,25 @@ void arrayReverseSlice(Array* array, size_t lo, size_t hi) {
 
 void arrayReverse(Array* array) {
     arrayReverseSlice(array, 0, array->length);
+}
+
+size_t arrayIndex(Array* array, void* item) {
+    for (size_t i = 0; i < array->length; i++) {
+        if (memcmp(arrayAt(array, i), item, array->itemSize) == 0) {
+            return i;
+        }
+    } 
+    return array->length;
+}
+
+size_t arrayCount(Array* array, void* item) {
+    size_t count = 0;
+    for (size_t i = 0; i < array->length; i++) {
+        if (memcmp(arrayAt(array, i), item, array->itemSize) == 0) {
+            count++;
+        }
+    }
+    return count;
 }
 
 void printArray(Array* array) {

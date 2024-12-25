@@ -2,6 +2,7 @@
 #define ARRAY_H
 
 #include <stddef.h>
+#include <stdbool.h>
 
 typedef struct {
     size_t length;
@@ -30,6 +31,15 @@ void arrayExtend(Array* self, Array* array);
 void arraySlice(Array* array, size_t lo, size_t hi); // TODO
 void arrayReverseSlice(Array* array, size_t lo, size_t hi);
 void arrayReverse(Array* array);
+
+size_t arrayIndex(Array* array, void* item); // Returns length of array if not found
+size_t arrayCount(Array* array, void* item); 
+
+// Sorting
+typedef bool (*Compare)(int, int);
+
+void arrayMergeSort(Array* array);
+void arrayQuickSort(Array* array);
 
 void printArray(Array* array);
 

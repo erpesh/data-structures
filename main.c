@@ -23,18 +23,23 @@ int main() {
     // arrayRemove(&array, 3);
     printf("\n");
     int val = 3;
-    insertAtIndex(&array, &val, 1);
-    printArray(&array);
-    printf("\n");
-    Array array2 = createArrayFromRegularArray(arr2, sizeof(arr2) / itemSize, itemSize);
-    printArray(&array2);
 
-    arrayExtend(&array, &array2);
-    printf("\n");
+    printf("3 at index %zu\n", arrayIndex(&array, &val));
+
+    insertAtIndex(&array, &val, 1);
+    printf("3 at index %zu\n", arrayIndex(&array, &val));
+    printf("3 appears %zu time\n", arrayCount(&array, &val));
     printArray(&array);
-    arrayReverse(&array);
     printf("\n");
-    printArray(&array);
+    // Array array2 = createArrayFromRegularArray(arr2, sizeof(arr2) / itemSize, itemSize);
+    // printArray(&array2);
+
+    // arrayExtend(&array, &array2);
+    // printf("\n");
+    // printArray(&array);
+    // arrayReverse(&array);
+    // printf("\n");
+    // printArray(&array);
 
     free(array.items);
 
