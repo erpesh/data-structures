@@ -32,18 +32,45 @@ Array createArrayFromRegularArray(void* regularArray, size_t length, size_t item
     return array;
 }
 
+void increaseCapacity(Array* array) {
+    if (array->length < array->capacity) {
+        printf("Array has enough capacity.\n");
+        return;
+    }
+
+    size_t newCapacity = array->capacity * 2;
+
+    void* newItems = realloc(array->items, array->itemSize * newCapacity);
+    if (newItems == NULL) {
+        printf("Memory reallocation failed!\n");
+        exit(1);
+    }
+
+    array->items = newItems;
+    array->capacity = newCapacity;
+}
+
+void decreaseCapacity(Array* array) {
+    if (array->length >= array->capacity / 2) {
+        printf("Array's capacity shouldn't be decreased.\n");
+        return;
+    }
+
+    size_t newCapacity = array->capacity / 2;
+
+    void *newItems = realloc(array->items, array->itemSize * newCapacity);
+    if (newItems == NULL) {
+        printf("Memory reallocation failed!\n");
+        exit(1);
+    }
+
+    array->items = newItems;
+    array->capacity = newCapacity;
+}
+
 void arrayAppend(Array* array, void* item) {
     if (array->length >= array->capacity) {
-        size_t newCapacity = array->capacity * 2;
-
-        void* newItems = realloc(array->items, array->itemSize * newCapacity);
-        if (newItems == NULL) {
-            printf("Memory allocation failed!\n");
-            return;
-        }
-
-        array->items = newItems;
-        array->capacity = newCapacity;
+        increaseCapacity(array);
     }
 
     void* target = (char*)array->items + (array->length * array->itemSize);
@@ -67,7 +94,7 @@ void swapTwoElements(Array* array, size_t i, size_t j) {
     }
 
     if (i == j) {
-        exit(0);
+        return;
     }
 
     void* temp = malloc(array->itemSize);
@@ -100,6 +127,34 @@ void arrayRemove(Array* array, size_t index) {
     memmove(dest, src, bytesToMove);
     
     array->length -= 1;
+
+    if (array->length < array->capacity / 2) {
+        decreaseCapacity(array);
+    }
+}
+
+void insertAtIndex(Array* array, void* item, size_t index) {
+    if (index > array->length) {
+        printf("Index out of range\n");
+        exit(1);
+    }
+
+    if (array->length >= array->capacity) {
+        increaseCapacity(array);
+    }
+
+    void* src = (char*)array->items + index * array->itemSize;
+    void* dest = (char*)array->items + (index + 1) * array->itemSize;
+    size_t bytesToMove = (array->length - index) * array->itemSize;
+
+    // Move all elements after the index by 1 position
+    memmove(dest, src, bytesToMove);
+
+    // Insert new item
+    void* target = (char*)array->items + index * array->itemSize;
+    memcpy(target, item, array->itemSize);
+
+    array->length++;
 }
 
 void printArray(Array* array) {

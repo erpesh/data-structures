@@ -13,12 +13,22 @@ typedef struct {
 Array createArray(size_t itemSize, size_t initCapacity);
 Array createArrayFromRegularArray(void* regularArray, size_t length, size_t itemSize);
 // TODO
+Array arrayCopy(Array* array);
+
+// Helper functions
+void increaseCapacity(Array* array);
 void decreaseCapacity(Array* array);
 
-void arrayAppend(Array* array, void* item);
 void* arrayAt(Array* array, size_t index);
+
+void arrayAppend(Array* array, void* item);
+void insertAtIndex(Array* array, void* item, size_t index);
 void swapTwoElements(Array* array, size_t i, size_t j);
 void arrayRemove(Array* array, size_t index);
+
+// TODO
+void arrayExtend(Array* a, Array* b);
+void arrayReverse(Array* array);
 
 void printArray(Array* array);
 
