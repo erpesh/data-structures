@@ -32,14 +32,27 @@ Array createArrayFromRegularArray(void* regularArray, size_t length, size_t item
     return array;
 }
 
-void increaseCapacity(Array* array) {
-    if (array->length < array->capacity) {
-        printf("Array has enough capacity.\n");
-        return;
+Array arrayCopy(Array* array) {
+    size_t arraySize = array->length * array->itemSize;
+
+    Array copy = {
+        .length = array->length,
+        .capacity = array->length, // Capacity set to length
+        .itemSize = array->itemSize,
+        .items = malloc(arraySize)
+    };
+
+    if (copy.items == NULL) {
+        printf("Memory allocation failed!\n");
+        exit(1);
     }
 
-    size_t newCapacity = array->capacity * 2;
+    memcpy(copy.items, array->items, arraySize);
 
+    return copy;
+}
+
+void increaseCapacity(Array* array, size_t newCapacity) {
     void* newItems = realloc(array->items, array->itemSize * newCapacity);
     if (newItems == NULL) {
         printf("Memory reallocation failed!\n");
@@ -48,6 +61,10 @@ void increaseCapacity(Array* array) {
 
     array->items = newItems;
     array->capacity = newCapacity;
+}
+
+void doubleCapacity(Array* array) {
+    increaseCapacity(array, array->capacity * 2);
 }
 
 void decreaseCapacity(Array* array) {
@@ -68,9 +85,17 @@ void decreaseCapacity(Array* array) {
     array->capacity = newCapacity;
 }
 
+void* arrayAt(Array* array, size_t index) {
+    if (index >= array->length) {
+        printf("Index out of range\n");
+        exit(1);
+    }
+    return (char*)array->items + (index * array->itemSize);
+}
+
 void arrayAppend(Array* array, void* item) {
     if (array->length >= array->capacity) {
-        increaseCapacity(array);
+        doubleCapacity(array);
     }
 
     void* target = (char*)array->items + (array->length * array->itemSize);
@@ -79,12 +104,28 @@ void arrayAppend(Array* array, void* item) {
     array->length++;
 }
 
-void* arrayAt(Array* array, size_t index) {
-    if (index >= array->length) {
+void insertAtIndex(Array* array, void* item, size_t index) {
+    if (index > array->length) {
         printf("Index out of range\n");
         exit(1);
     }
-    return (char*)array->items + (index * array->itemSize);
+
+    if (array->length >= array->capacity) {
+        doubleCapacity(array);
+    }
+
+    void* src = (char*)array->items + index * array->itemSize;
+    void* dest = (char*)array->items + (index + 1) * array->itemSize;
+    size_t bytesToMove = (array->length - index) * array->itemSize;
+
+    // Move all elements after the index by 1 position
+    memmove(dest, src, bytesToMove);
+
+    // Insert new item
+    void* target = (char*)array->items + index * array->itemSize;
+    memcpy(target, item, array->itemSize);
+
+    array->length++;
 }
 
 void swapTwoElements(Array* array, size_t i, size_t j) {
@@ -133,28 +174,26 @@ void arrayRemove(Array* array, size_t index) {
     }
 }
 
-void insertAtIndex(Array* array, void* item, size_t index) {
-    if (index > array->length) {
-        printf("Index out of range\n");
+void arrayExtend(Array* self, Array* array) {
+    if (self == NULL || array == NULL) {
+        printf("Array(s) can't be NULL\n");
         exit(1);
     }
 
-    if (array->length >= array->capacity) {
-        increaseCapacity(array);
+    size_t totalLength = self->length + array->length;
+
+    if (totalLength > self->capacity) {
+        size_t newCapacity = self->capacity * 2;
+        if (totalLength > newCapacity) {
+            newCapacity = totalLength;
+        }
+        increaseCapacity(newCapacity);
     }
 
-    void* src = (char*)array->items + index * array->itemSize;
-    void* dest = (char*)array->items + (index + 1) * array->itemSize;
-    size_t bytesToMove = (array->length - index) * array->itemSize;
+    void* destination = (char*)self->items + (self->length * self->itemSize);
+    memcpy(destination, array->items, array->length * array->itemSize);
 
-    // Move all elements after the index by 1 position
-    memmove(dest, src, bytesToMove);
-
-    // Insert new item
-    void* target = (char*)array->items + index * array->itemSize;
-    memcpy(target, item, array->itemSize);
-
-    array->length++;
+    self->length = totalLength;
 }
 
 void printArray(Array* array) {
