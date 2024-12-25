@@ -175,6 +175,7 @@ void arrayRemove(Array* array, size_t index) {
 }
 
 void arrayExtend(Array* self, Array* array) {
+    printf("capacity before %zu\n", self->capacity);
     if (self == NULL || array == NULL) {
         printf("Array(s) can't be NULL\n");
         exit(1);
@@ -187,13 +188,34 @@ void arrayExtend(Array* self, Array* array) {
         if (totalLength > newCapacity) {
             newCapacity = totalLength;
         }
-        increaseCapacity(newCapacity);
+        increaseCapacity(self, newCapacity);
     }
 
     void* destination = (char*)self->items + (self->length * self->itemSize);
     memcpy(destination, array->items, array->length * array->itemSize);
 
     self->length = totalLength;
+    printf("capacity after %zu\n", self->capacity);
+}
+
+void arraySlice(Array* array, size_t lo, size_t hi) {
+    
+}
+
+// from lo to hi (exclusive)
+void arrayReverseSlice(Array* array, size_t lo, size_t hi) {
+    // If hi out of bounds set it to the end of array
+    if (hi > array->length) {
+        hi = array->length;
+    }
+
+    for (size_t i = lo, j = hi - 1; i < j; i++, j--) {
+        swapTwoElements(array, i, j);
+    }
+}
+
+void arrayReverse(Array* array) {
+    arrayReverseSlice(array, 0, array->length);
 }
 
 void printArray(Array* array) {

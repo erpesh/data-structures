@@ -26,9 +26,9 @@ void arrayAppend(Array* array, void* item);
 void insertAtIndex(Array* array, void* item, size_t index);
 void swapTwoElements(Array* array, size_t i, size_t j);
 void arrayRemove(Array* array, size_t index);
-
-// TODO
 void arrayExtend(Array* self, Array* array);
+void arraySlice(Array* array, size_t lo, size_t hi); // TODO
+void arrayReverseSlice(Array* array, size_t lo, size_t hi);
 void arrayReverse(Array* array);
 
 void printArray(Array* array);

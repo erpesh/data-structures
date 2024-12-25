@@ -32,6 +32,9 @@ int main() {
     arrayExtend(&array, &array2);
     printf("\n");
     printArray(&array);
+    arrayReverse(&array);
+    printf("\n");
+    printArray(&array);
 
     free(array.items);
 
