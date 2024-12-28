@@ -198,11 +198,23 @@ void arrayExtend(Array* self, Array* array) {
     printf("capacity after %zu\n", self->capacity);
 }
 
-// void arraySlice(Array* array, size_t lo, size_t hi) {
+void arraySlice(Array* array, size_t lo, size_t hi) {
+    if (hi > array->length) {
+        hi = array->length;
+    }
 
-// }
+    size_t newLength;
+    if (lo >= hi) {
+        newLength = 0;
+    }
+    else {
+        newLength = hi - lo;
+    }
 
-// from lo to hi (exclusive)
+    array->items = arrayAt(array, lo);
+    array->length = newLength;
+}
+
 void arrayReverseSlice(Array* array, size_t lo, size_t hi) {
     // If hi out of bounds set it to the end of array
     if (hi > array->length) {

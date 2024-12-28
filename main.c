@@ -31,6 +31,9 @@ int main() {
     printf("3 appears %zu time\n", arrayCount(&array, &val));
     printArray(&array);
     printf("\n");
+    arraySlice(&array, 1, 11);
+    printArray(&array);
+    printf("\n");
     // Array array2 = createArrayFromRegularArray(arr2, sizeof(arr2) / itemSize, itemSize);
     // printArray(&array2);
 
