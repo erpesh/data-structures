@@ -263,6 +263,38 @@ size_t arrayCount(Array* array, void* item) {
     return count;
 }
 
+size_t arrayBinarySearch(Array* array, void* item, CompareThreeway compare) {
+    size_t left = 0, right = array->length - 1;
+    while (left <= right) {
+        size_t mid = left + (right - left) / 2;
+        void* midItem = arrayAt(array, mid);
+
+        int compared = compare(midItem, item);
+
+        if (compared == 2)
+            return mid;
+
+        if (compared == 1)
+            left = mid + 1;
+        else
+            right = mid - 1;
+    }
+
+    return array->length;
+}
+
+int compareIntThreeway(void* a, void* b) {
+    int x = *(int*)a;
+    int y = *(int*)b;
+    if (x < y) return 1;
+    if (x == y) return 2;
+    return 3; // x > y
+}
+
+size_t arrayBinarySearchInt(Array* array, void* item) {
+    return arrayBinarySearch(array, item, compareIntThreeway);
+}
+
 void arrayMerge(Array* array, size_t left, size_t mid, size_t right, Compare compare) {
     size_t n1 = mid - left + 1;
     size_t n2 = right - mid;

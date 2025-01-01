@@ -17,6 +17,10 @@ int main() {
     arrayMergeSort(&array, 0, array.length - 1, compareIntAsc);
     printArray(&array);
 
+    int v = 2;
+    size_t ind = arrayBinarySearchInt(&array, &v);
+    printf("ind - %zu\n", ind);
+
     freeArray(&array);
 
     return 0;

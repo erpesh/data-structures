@@ -31,13 +31,15 @@ void arrayExtend(Array* self, Array* array);
 void arraySlice(Array* array, size_t lo, size_t hi); // from lo (inclusive) to hi (exclusive)
 void arrayReverseSlice(Array* array, size_t lo, size_t hi);
 void arrayReverse(Array* array);
-
 size_t arrayIndex(Array* array, void* item); // Returns length of array if not found
 size_t arrayCount(Array* array, void* item); 
 
-// Sorting
+// Algorithms
 typedef bool (*Compare)(void*, void*);
+typedef int (*CompareThreeway)(void*, void*); // 1 - less, 2 - equals, 3 - greater
 
+size_t arrayBinarySearch(Array* array, void* item, CompareThreeway compare);
+size_t arrayBinarySearchInt(Array* array, void* item);
 void arrayMerge(Array* array, size_t left, size_t mid, size_t right, Compare compare);
 void arrayMergeSort(Array* array, size_t left, size_t right, Compare compare);
 void arrayQuickSort(Array* array);
