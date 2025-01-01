@@ -14,15 +14,15 @@ typedef struct {
 Array createArray(size_t itemSize, size_t initCapacity);
 Array createArrayFromRegularArray(void* regularArray, size_t length, size_t itemSize);
 Array arrayCopy(Array* array);
+void freeArray(Array* array);
 
 // Helper functions
-// TODO: possibly unite increase and decrease capacity
 void increaseCapacity(Array* array, size_t increase);
 void doubleCapacity(Array* array);
 void decreaseCapacity(Array* array);
 
 void* arrayAt(Array* array, size_t index);
-
+void replaceAtIndex(Array* array, size_t index, void* item);
 void arrayAppend(Array* array, void* item);
 void insertAtIndex(Array* array, void* item, size_t index);
 void swapTwoElements(Array* array, size_t i, size_t j);
@@ -36,9 +36,10 @@ size_t arrayIndex(Array* array, void* item); // Returns length of array if not f
 size_t arrayCount(Array* array, void* item); 
 
 // Sorting
-typedef bool (*Compare)(int, int);
+typedef bool (*Compare)(void*, void*);
 
-void arrayMergeSort(Array* array);
+void arrayMerge(Array* array, size_t left, size_t mid, size_t right, Compare compare);
+void arrayMergeSort(Array* array, size_t left, size_t right, Compare compare);
 void arrayQuickSort(Array* array);
 
 void printArray(Array* array);

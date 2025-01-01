@@ -3,48 +3,21 @@
 // #include "list/list.h"
 #include "array/array.h"
 
+bool compareIntAsc(void* a, void* b) {
+    return *(int*)a <= *(int*)b;
+}
+
 int main() {
-    int arr[] = {1, 2, 3, 4, 125}; 
+    int arr[] = {5, 2, 6, 7, 1}; 
     size_t itemSize = sizeof(arr[0]);
     size_t length = sizeof(arr) / itemSize;
-    int arr2[] = {5, 6, 7, 8};
 
     Array array = createArrayFromRegularArray(arr, length, itemSize);
-    // Array array = createArray(sizeof(int), 1);
-    // int value = 1;
 
-    // arrayAppend(&array, &value);
-    // arrayAppend(&array, &value);
-    // int v2 = 4;
-    // arrayAppend(&array, &v2);
-    // arrayAppend(&array, &value);
-
+    arrayMergeSort(&array, 0, array.length - 1, compareIntAsc);
     printArray(&array);
-    // arrayRemove(&array, 3);
-    printf("\n");
-    int val = 3;
 
-    printf("3 at index %zu\n", arrayIndex(&array, &val));
-
-    insertAtIndex(&array, &val, 1);
-    printf("3 at index %zu\n", arrayIndex(&array, &val));
-    printf("3 appears %zu time\n", arrayCount(&array, &val));
-    printArray(&array);
-    printf("\n");
-    arraySlice(&array, 1, 11);
-    printArray(&array);
-    printf("\n");
-    // Array array2 = createArrayFromRegularArray(arr2, sizeof(arr2) / itemSize, itemSize);
-    // printArray(&array2);
-
-    // arrayExtend(&array, &array2);
-    // printf("\n");
-    // printArray(&array);
-    // arrayReverse(&array);
-    // printf("\n");
-    // printArray(&array);
-
-    free(array.items);
+    freeArray(&array);
 
     return 0;
 }

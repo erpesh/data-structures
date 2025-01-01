@@ -52,6 +52,13 @@ Array arrayCopy(Array* array) {
     return copy;
 }
 
+void freeArray(Array* array) {
+    if (array->items) {
+        free(array->items);
+        array->items = NULL;
+    }
+}
+
 void increaseCapacity(Array* array, size_t newCapacity) {
     void* newItems = realloc(array->items, array->itemSize * newCapacity);
     if (newItems == NULL) {
@@ -88,9 +95,16 @@ void decreaseCapacity(Array* array) {
 void* arrayAt(Array* array, size_t index) {
     if (index >= array->length) {
         printf("Index out of range\n");
+        printf("Length - %zu, ", array->length);
+        printf("index - %zu\n", index);
         exit(1);
     }
     return (char*)array->items + (index * array->itemSize);
+}
+
+void replaceAtIndex(Array* array, size_t index, void* item) {
+    void* target = arrayAt(array, index);
+    memcpy(target, item, array->itemSize);
 }
 
 void arrayAppend(Array* array, void* item) {
@@ -248,6 +262,59 @@ size_t arrayCount(Array* array, void* item) {
     }
     return count;
 }
+
+void arrayMerge(Array* array, size_t left, size_t mid, size_t right, Compare compare) {
+    size_t n1 = mid - left + 1;
+    size_t n2 = right - mid;
+
+    Array leftArr = createArray(array->itemSize, n1);
+    Array rightArr = createArray(array->itemSize, n2);
+
+    memcpy(leftArr.items, arrayAt(array, left), n1 * array->itemSize);
+    leftArr.length = n1;
+    memcpy(rightArr.items, arrayAt(array, mid + 1), n2 * array->itemSize);
+    rightArr.length = n2;
+
+    size_t i = 0, j = 0, k = left;
+    while (i < n1 && j < n2) {
+        void* leftItem = arrayAt(&leftArr, i);
+        void* rightItem = arrayAt(&rightArr, j);
+        if (compare(leftItem, rightItem)) {
+            replaceAtIndex(array, k, arrayAt(&leftArr, i));
+            i++;
+        }
+        else {
+            replaceAtIndex(array, k, arrayAt(&rightArr, j));
+            j++;
+        }
+        k++;
+    }
+
+    while (i < n1) {
+        replaceAtIndex(array, k, arrayAt(&leftArr, i));
+        i++;
+        k++;
+    }
+    while (j < n2) {
+        replaceAtIndex(array, k, arrayAt(&rightArr, j));
+        j++;
+        k++;
+    }
+    freeArray(&leftArr);
+    freeArray(&rightArr);
+}
+
+void arrayMergeSort(Array* array, size_t left, size_t right, Compare compare) {
+    if (left < right) {
+        size_t mid = left + (right - left) / 2;
+
+        arrayMergeSort(array, left, mid, compare);
+        arrayMergeSort(array, mid + 1, right, compare);
+
+        arrayMerge(array, left, mid, right, compare);
+    }
+}
+
 
 void printArray(Array* array) {
     for (size_t i = 0; i < array->length; i++) {
