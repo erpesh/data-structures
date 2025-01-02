@@ -271,10 +271,10 @@ size_t arrayBinarySearch(Array* array, void* item, CompareThreeway compare) {
 
         int compared = compare(midItem, item);
 
-        if (compared == 2)
+        if (compared == 0)
             return mid;
 
-        if (compared == 1)
+        if (compared < 0)
             left = mid + 1;
         else
             right = mid - 1;
@@ -284,18 +284,14 @@ size_t arrayBinarySearch(Array* array, void* item, CompareThreeway compare) {
 }
 
 int compareIntThreeway(void* a, void* b) {
-    int x = *(int*)a;
-    int y = *(int*)b;
-    if (x < y) return 1;
-    if (x == y) return 2;
-    return 3; // x > y
+    return *(int*)a - *(int*)b;
 }
 
 size_t arrayBinarySearchInt(Array* array, void* item) {
     return arrayBinarySearch(array, item, compareIntThreeway);
 }
 
-void arrayMerge(Array* array, size_t left, size_t mid, size_t right, Compare compare) {
+void arrayMerge(Array* array, size_t left, size_t mid, size_t right, CompareThreeway compare) {
     size_t n1 = mid - left + 1;
     size_t n2 = right - mid;
 
@@ -311,7 +307,7 @@ void arrayMerge(Array* array, size_t left, size_t mid, size_t right, Compare com
     while (i < n1 && j < n2) {
         void* leftItem = arrayAt(&leftArr, i);
         void* rightItem = arrayAt(&rightArr, j);
-        if (compare(leftItem, rightItem)) {
+        if (compare(leftItem, rightItem) < 0) {
             replaceAtIndex(array, k, arrayAt(&leftArr, i));
             i++;
         }
@@ -336,7 +332,7 @@ void arrayMerge(Array* array, size_t left, size_t mid, size_t right, Compare com
     freeArray(&rightArr);
 }
 
-void arrayMergeSort(Array* array, size_t left, size_t right, Compare compare) {
+void arrayMergeSort(Array* array, size_t left, size_t right, CompareThreeway compare) {
     if (left < right) {
         size_t mid = left + (right - left) / 2;
 
@@ -345,6 +341,10 @@ void arrayMergeSort(Array* array, size_t left, size_t right, Compare compare) {
 
         arrayMerge(array, left, mid, right, compare);
     }
+}
+
+void arrayMergeSortInt(Array* array) {
+    arrayMergeSort(array, 0, array->length - 1, compareIntThreeway);
 }
 
 
