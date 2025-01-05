@@ -263,7 +263,7 @@ size_t arrayCount(Array* array, void* item) {
     return count;
 }
 
-size_t arrayBinarySearch(Array* array, void* item, CompareThreeway compare) {
+size_t arrayBinarySearch(Array* array, void* item, Compare compare) {
     size_t left = 0, right = array->length - 1;
     while (left <= right) {
         size_t mid = left + (right - left) / 2;
@@ -291,7 +291,7 @@ size_t arrayBinarySearchInt(Array* array, void* item) {
     return arrayBinarySearch(array, item, compareIntThreeway);
 }
 
-void arrayMerge(Array* array, size_t left, size_t mid, size_t right, CompareThreeway compare) {
+void arrayMerge(Array* array, size_t left, size_t mid, size_t right, Compare compare) {
     size_t n1 = mid - left + 1;
     size_t n2 = right - mid;
 
@@ -332,7 +332,7 @@ void arrayMerge(Array* array, size_t left, size_t mid, size_t right, CompareThre
     freeArray(&rightArr);
 }
 
-void arrayMergeSort(Array* array, size_t left, size_t right, CompareThreeway compare) {
+void arrayMergeSort(Array* array, size_t left, size_t right, Compare compare) {
     if (left < right) {
         size_t mid = left + (right - left) / 2;
 
@@ -347,7 +347,7 @@ void arrayMergeSortInt(Array* array) {
     arrayMergeSort(array, 0, array->length - 1, compareIntThreeway);
 }
 
-size_t arrayPartition(Array* array, size_t left, size_t right, CompareThreeway compare) {
+size_t arrayPartition(Array* array, size_t left, size_t right, Compare compare) {
     size_t pivot = right;
     void* pivotItem = arrayAt(array, pivot);
     size_t i = left;
@@ -365,7 +365,7 @@ size_t arrayPartition(Array* array, size_t left, size_t right, CompareThreeway c
     return i + 1;
 }
 
-void arrayQuickSort(Array* array, size_t left, size_t right, CompareThreeway compare) {
+void arrayQuickSort(Array* array, size_t left, size_t right, Compare compare) {
     if (left < right) {
         size_t pivot = arrayPartition(array, left, right, compare);
 

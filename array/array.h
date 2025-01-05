@@ -35,16 +35,16 @@ size_t arrayIndex(Array* array, void* item); // Returns length of array if not f
 size_t arrayCount(Array* array, void* item); 
 
 // Algorithms
-typedef int (*CompareThreeway)(void*, void*); // negative - a < b, 0 - a == b, positive - a > b
+typedef int (*Compare)(void*, void*); // negative - a < b, 0 - a == b, positive - a > b
 
-size_t arrayBinarySearch(Array* array, void* item, CompareThreeway compare);
+size_t arrayBinarySearch(Array* array, void* item, Compare compare);
 size_t arrayBinarySearchInt(Array* array, void* item);
-void arrayMerge(Array* array, size_t left, size_t mid, size_t right, CompareThreeway compare);
-void arrayMergeSort(Array* array, size_t left, size_t right, CompareThreeway compare);
+void arrayMerge(Array* array, size_t left, size_t mid, size_t right, Compare compare);
+void arrayMergeSort(Array* array, size_t left, size_t right, Compare compare);
 void arrayMergeSortInt(Array* array);
 void swap(void *a, void *b);
-size_t arrayPartition(Array* array, size_t left, size_t right, CompareThreeway compare);
-void arrayQuickSort(Array* array, size_t left, size_t right, CompareThreeway compare);
+size_t arrayPartition(Array* array, size_t left, size_t right, Compare compare);
+void arrayQuickSort(Array* array, size_t left, size_t right, Compare compare);
 void arrayQuickSortInt(Array* array);
 
 void printArray(Array* array);
