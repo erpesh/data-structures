@@ -22,10 +22,10 @@ void doubleCapacity(Array* array);
 void decreaseCapacity(Array* array);
 
 void* arrayAt(Array* array, size_t index);
-void replaceAtIndex(Array* array, size_t index, void* item);
+void arrayReplaceAtIndex(Array* array, size_t index, void* item);
 void arrayAppend(Array* array, void* item);
-void insertAtIndex(Array* array, void* item, size_t index);
-void swapTwoElements(Array* array, size_t i, size_t j);
+void arrayInsertAtIndex(Array* array, void* item, size_t index);
+void arraySwapTwoElements(Array* array, size_t i, size_t j);
 void arrayRemove(Array* array, size_t index);
 void arrayExtend(Array* self, Array* array);
 void arraySlice(Array* array, size_t lo, size_t hi); // from lo (inclusive) to hi (exclusive)
@@ -42,7 +42,10 @@ size_t arrayBinarySearchInt(Array* array, void* item);
 void arrayMerge(Array* array, size_t left, size_t mid, size_t right, CompareThreeway compare);
 void arrayMergeSort(Array* array, size_t left, size_t right, CompareThreeway compare);
 void arrayMergeSortInt(Array* array);
-void arrayQuickSort(Array* array);
+void swap(void *a, void *b);
+size_t arrayPartition(Array* array, size_t left, size_t right, CompareThreeway compare);
+void arrayQuickSort(Array* array, size_t left, size_t right, CompareThreeway compare);
+void arrayQuickSortInt(Array* array);
 
 void printArray(Array* array);
 

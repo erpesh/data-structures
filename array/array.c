@@ -102,7 +102,7 @@ void* arrayAt(Array* array, size_t index) {
     return (char*)array->items + (index * array->itemSize);
 }
 
-void replaceAtIndex(Array* array, size_t index, void* item) {
+void arrayReplaceAtIndex(Array* array, size_t index, void* item) {
     void* target = arrayAt(array, index);
     memcpy(target, item, array->itemSize);
 }
@@ -118,7 +118,7 @@ void arrayAppend(Array* array, void* item) {
     array->length++;
 }
 
-void insertAtIndex(Array* array, void* item, size_t index) {
+void arrayInsertAtIndex(Array* array, void* item, size_t index) {
     if (index > array->length) {
         printf("Index out of range\n");
         exit(1);
@@ -142,7 +142,7 @@ void insertAtIndex(Array* array, void* item, size_t index) {
     array->length++;
 }
 
-void swapTwoElements(Array* array, size_t i, size_t j) {
+void arraySwapTwoElements(Array* array, size_t i, size_t j) {
     if (i >= array->length || j >= array->length) {
         printf("Index out of range\n");
         exit(1);
@@ -236,7 +236,7 @@ void arrayReverseSlice(Array* array, size_t lo, size_t hi) {
     }
 
     for (size_t i = lo, j = hi - 1; i < j; i++, j--) {
-        swapTwoElements(array, i, j);
+        arraySwapTwoElements(array, i, j);
     }
 }
 
@@ -308,23 +308,23 @@ void arrayMerge(Array* array, size_t left, size_t mid, size_t right, CompareThre
         void* leftItem = arrayAt(&leftArr, i);
         void* rightItem = arrayAt(&rightArr, j);
         if (compare(leftItem, rightItem) < 0) {
-            replaceAtIndex(array, k, arrayAt(&leftArr, i));
+            arrayReplaceAtIndex(array, k, arrayAt(&leftArr, i));
             i++;
         }
         else {
-            replaceAtIndex(array, k, arrayAt(&rightArr, j));
+            arrayReplaceAtIndex(array, k, arrayAt(&rightArr, j));
             j++;
         }
         k++;
     }
 
     while (i < n1) {
-        replaceAtIndex(array, k, arrayAt(&leftArr, i));
+        arrayReplaceAtIndex(array, k, arrayAt(&leftArr, i));
         i++;
         k++;
     }
     while (j < n2) {
-        replaceAtIndex(array, k, arrayAt(&rightArr, j));
+        arrayReplaceAtIndex(array, k, arrayAt(&rightArr, j));
         j++;
         k++;
     }
@@ -347,6 +347,39 @@ void arrayMergeSortInt(Array* array) {
     arrayMergeSort(array, 0, array->length - 1, compareIntThreeway);
 }
 
+size_t arrayPartition(Array* array, size_t left, size_t right, CompareThreeway compare) {
+    size_t pivot = right;
+    void* pivotItem = arrayAt(array, pivot);
+    size_t i = left;
+
+    for (size_t j = left; j < right; j++) {
+        void* rightItem = arrayAt(array, j);
+        if (compare(rightItem, pivotItem) <= 0) {
+            arraySwapTwoElements(array, i, j);
+            i++;
+        }
+    }
+
+    arraySwapTwoElements(array, i, pivot);
+
+    return i + 1;
+}
+
+void arrayQuickSort(Array* array, size_t left, size_t right, CompareThreeway compare) {
+    if (left < right) {
+        size_t pivot = arrayPartition(array, left, right, compare);
+
+        if (pivot > 0) {
+            arrayQuickSort(array, left, pivot - 1, compare);
+        }
+
+        arrayQuickSort(array, pivot + 1, right, compare);
+    }
+}
+
+void arrayQuickSortInt(Array* array) {
+    arrayQuickSort(array, 0, array->length - 1, compareIntThreeway);
+}
 
 void printArray(Array* array) {
     for (size_t i = 0; i < array->length; i++) {

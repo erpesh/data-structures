@@ -10,7 +10,7 @@ int main() {
 
     Array array = createArrayFromRegularArray(arr, length, itemSize);
 
-    arrayMergeSortInt(&array);
+    arrayQuickSortInt(&array);
     printArray(&array);
 
     int v = 7;
