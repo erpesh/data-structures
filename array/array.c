@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "array.h"
 
 Array createArray(size_t itemSize, size_t initCapacity) {
