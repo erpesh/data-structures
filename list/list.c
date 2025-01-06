@@ -1,8 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "list.h"
 
-List* createNode(int data) {
+List* createList(void* data) {
     List* head = (List*)malloc(sizeof(List));
 
     if (!head) {
@@ -15,16 +13,16 @@ List* createNode(int data) {
     return head;
 }
 
-List* createNodeFromArray(int arr[], int n) {
-    if (n == 0) {
+List* createListFromArray(Array* array) {
+    if (array->length == 0) {
         return NULL;
     }
 
-    List* newNode = createNode(arr[0]);
+    List* newNode = createList(arrayAt(array, 0));
     List* head = newNode;
 
-    for (int i = 1; i < n; i++) {
-        newNode->next = createNode(arr[i]);
+    for (size_t i = 1; i < array->length; i++) {
+        newNode->next = createList(arrayAt(array, i));
         newNode = newNode->next;
     }
 
@@ -32,28 +30,32 @@ List* createNodeFromArray(int arr[], int n) {
 }
 
 // O(n^2)
-List* createNodeFromArray2(int arr[], int n) {
+List* createListFromArray2(Array* array) {
     List* node = NULL;
 
-    for (int i = 0; i < n; i++) {
-        node = insertAtEnd(node, arr[i]);
+    for (size_t i = 0; i < array->length; i++) {
+        node = insertAtEnd(node, arrayAt(array, i));
     }
 
     return node;
 }
 
-List* createNodeFromArray3(int arr[], int n) {
+List* createListFromArray3(Array* array) {
+    if (array->length == 0) {
+        return NULL;
+    }
+
     List* node = NULL;
     
-    for (int i = n - 1; i >= 0; i--) {
-        node = insertAtBeginning(node, arr[i]);
+    for (size_t i = array->length; i > 0; i--) {
+        node = insertAtBeginning(node, arrayAt(array, i - 1));
     }
 
     return node;
 }
 
-List* insertAtBeginning(List* head, int data) {
-    List* newNode = createNode(data);
+List* insertAtBeginning(List* head, void* data) {
+    List* newNode = createList(data);
 
     if (head == NULL) {
         return newNode;
@@ -63,14 +65,14 @@ List* insertAtBeginning(List* head, int data) {
     return newNode;
 }
 
-void insertAtBeginningPointer(List** head, int data) {
-    List* newNode = createNode(data);
+void insertAtBeginningPointer(List** head, void* data) {
+    List* newNode = createList(data);
     newNode->next = *head;
     *head = newNode;
 }
 
-List* insertAtEnd(List* head, int data) {
-    List* newNode = createNode(data);
+List* insertAtEnd(List* head, void* data) {
+    List* newNode = createList(data);
 
     if (head == NULL) {
         return newNode;
@@ -85,8 +87,8 @@ List* insertAtEnd(List* head, int data) {
     return head;
 }
 
-void insertAtEndPointer(List** head, int data) {
-    List* newNode = createNode(data);
+void insertAtEndPointer(List** head, void* data) {
+    List* newNode = createList(data);
     
     while (*head != NULL) {
         head = &((*head)->next);
@@ -95,9 +97,9 @@ void insertAtEndPointer(List** head, int data) {
     *head = newNode;
 }
 
-void printNode(List** head) {
+void printList(List** head) {
     while (*head != NULL) {
-        printf("Value %d\n", (*head)->data);
+        printf("Value %d\n", *(int*)(*head)->data);
         head = &((*head)->next);
     }
 }
