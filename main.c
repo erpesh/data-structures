@@ -11,7 +11,7 @@ int main() {
 
     Array array = createArrayFromRegularArray(arr, length, itemSize);
 
-    List* list = createListFromArray3(&array);
+    List* list = createListFromArray2(&array);
     printList(&list);
 
     freeArray(&array);

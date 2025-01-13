@@ -29,18 +29,7 @@ List* createListFromArray(Array* array) {
     return head;
 }
 
-// O(n^2)
 List* createListFromArray2(Array* array) {
-    List* node = NULL;
-
-    for (size_t i = 0; i < array->length; i++) {
-        node = insertAtEnd(node, arrayAt(array, i));
-    }
-
-    return node;
-}
-
-List* createListFromArray3(Array* array) {
     if (array->length == 0) {
         return NULL;
     }
