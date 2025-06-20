@@ -13,6 +13,7 @@ typedef struct List {
 List* createList(void* data);
 List* createListFromArray(Array* array); // O(n)
 List* createListFromArray2(Array* array); // O(n)
+void freeList(List* head);
 
 List* insertAtBeginning(List* head, void* data);
 void insertAtBeginningPointer(List** head, void* data);

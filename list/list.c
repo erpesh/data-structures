@@ -43,6 +43,14 @@ List* createListFromArray2(Array* array) {
     return node;
 }
 
+void freeList(List* head) {
+    while (head->data != NULL) {
+        List* temp = head;
+        head = head->next;
+        free(temp);
+    }
+}
+
 List* insertAtBeginning(List* head, void* data) {
     List* newNode = createList(data);
 
